@@ -4,6 +4,8 @@ plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
     alias(libs.plugins.kotlinxserialization)
+    alias(libs.plugins.compose.compiler)
+    alias(libs.plugins.jetbrainsCompose)
     id("com.vanniktech.maven.publish") version "0.29.0"
 }
 kotlin {
@@ -28,7 +30,21 @@ kotlin {
     }
 
     sourceSets {
+        androidMain.dependencies {
+            implementation(compose.ui)
+            implementation(compose.material)
+            implementation(libs.compose.ui.tooling.preview)
+            implementation(libs.androidx.core)
+        }
         commonMain.dependencies {
+            implementation(libs.androidx.core)
+            implementation(compose.runtime)
+            implementation(compose.foundation)
+            implementation(compose.material3)
+            implementation(compose.ui)
+            implementation(compose.components.resources)
+            implementation(compose.components.uiToolingPreview)
+            implementation(compose.material)
             implementation(libs.ktor.client.serialization)
         }
         commonTest.dependencies {
@@ -52,7 +68,7 @@ mavenPublishing {
     coordinates(
         groupId = "io.github.ericnjeim",
         artifactId = "lib-kmp",
-        version = "1.0.2"
+        version = "1.0.3"
     )
 
     // Configure POM metadata for the published artifact
